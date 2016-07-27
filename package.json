@@ -1,0 +1,41 @@
+{
+  "name": "beer-tracker-api",
+  "version": "0.0.1",
+  "description": "backend api for beer tracker system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "./node_modules/eslint/bin/eslint.js ./",
+    "test": "./node_modules/mocha/bin/mocha "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tlwirtz/beer-tracker-api.git"
+  },
+  "author": "taylorw@greysky.io",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tlwirtz/beer-tracker-api/issues"
+  },
+  "homepage": "https://github.com/tlwirtz/beer-tracker-api#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.1.1",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-mocha": "^2.2.0",
+    "gulp-nodemon": "^2.1.0",
+    "mocha": "^2.5.3",
+    "superagent": "^2.1.0",
+    "superagent-promise-plugin": "^3.2.0",
+    "superagent-use": "0.0.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "debug": "^2.2.0",
+    "express": "^4.14.0",
+    "http-errors": "^1.5.0",
+    "mongoose": "^4.5.7",
+    "morgan": "^1.7.0"
+  }
+}
