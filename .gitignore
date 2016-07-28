@@ -4,7 +4,7 @@ logs
 npm-debug.log*
 
 #dB
-data
+data/
 
 # Runtime data
 pids
