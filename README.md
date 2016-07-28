@@ -6,7 +6,7 @@ Backend API server for our beer tracker server
 ### Object Schema
 ```
 {
-  id: beer-id (uuid),
+  id: mongooseID,
   name: beer-name,
   device: {
     macID: mac-address,
@@ -16,8 +16,8 @@ Backend API server for our beer tracker server
     {
       id: uuid
       time: date.now(),
-      type: transaction-type,
-      qty: transaction-qty
+      type: transaction-type, //provided by caller
+      qty: transaction-qty //provided by caller
     },
     {
       id: uuid
