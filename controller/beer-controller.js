@@ -5,7 +5,6 @@ const httpErrors = require('http-errors');
 const uuid = require('uuid');
 const Beer = require('../model/beer');
 
-
 exports.createBeer = function(beerData) {
   debug('createBeer');
   return new Promise((resolve, reject) => {
