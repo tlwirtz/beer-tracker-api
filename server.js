@@ -10,7 +10,7 @@ const handleError = require('./lib/app-error');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/authdev';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/beerTracker';
 
 mongoose.connect(mongoURI);
 
