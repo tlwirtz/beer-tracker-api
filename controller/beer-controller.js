@@ -1,8 +1,10 @@
 'use strict';
 
 const debug = require('debug')('beerTracker:beerController');
-const Beer = require('../model/beer');
 const httpErrors = require('http-errors');
+const uuid = require('uuid');
+const Beer = require('../model/beer');
+
 
 exports.createBeer = function(beerData) {
   debug('createBeer');
@@ -70,5 +72,19 @@ exports.removeAllBeers = function(){
   return Beer.remove({});
 };
 
-//TODO -- update transaction array (wihtout changing anything else)
-// TODO -- build a transaction ?? (this should probably be a middleware)
+exports.addTransaction = function(beerId, transaction) {
+  debug('beerTracker:addTransaction');
+  return new Promise((resolve, reject) => {
+    if (!transaction.type || !transaction.qty) return new httpErrors(400, 'bad request - no type or qty');
+
+    transaction.id = uuid.v4();
+    transaction.dateTime = new Date.now();
+
+    Beer.findByIdAndUpdate(
+      beerId,
+      {$push: {'transactions': transaction}},
+      {safe: true, upsert: true, new: true}
+    ).then(resolve)
+    .catch((err) => reject(httpErrors(404, err.message)) );
+  });
+};
