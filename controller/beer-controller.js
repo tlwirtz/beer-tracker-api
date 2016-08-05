@@ -53,7 +53,7 @@ exports.updateBeer = function(beerId, beerData) {
     });
 
     Beer.findByIdAndUpdate(beerId, beerData)
-    .then(() => Beer.findOne({_id: beerId}.then(resolve)))
+    .then(() => Beer.findOne({_id: beerId}).then(resolve))
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };

@@ -31,8 +31,8 @@ beerRouter.get('/beer/:id', (req, res, next) => {
   .catch(next);
 });
 
-beerRouter.put('/beer/:id', (req, res, next) => {
-  debug('PUT /api/beer/:id', req.params.id);
+beerRouter.put('/beer/:id', jsonParser, (req, res, next) => {
+  debug('PUT /api/beer/:id', req.params.id, req.body);
   beerController.updateBeer(req.params.id, req.body)
   .then(beer => {
     if (!beer) return next(httpErrors(404, 'beer not found'));
@@ -48,7 +48,7 @@ beerRouter.delete('/beer/:id', (req, res, next) => {
   .catch(next);
 });
 
-beerRouter.post('/beer/:id/transaction', (req, res,next) => {
+beerRouter.post('/beer/:id/transaction', jsonParser, (req, res,next) => {
   debug('POST /api/beer/:id/transaction', req.params.id);
   beerController.addTransaction(req.params.id, req.body)
   .then(beer => res.json(beer))
