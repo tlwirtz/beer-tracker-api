@@ -39,10 +39,26 @@ describe('testing beer-routes', function() {
 
   describe('testing beer router', function() {
     beforeEach((done) => {
-      //create some beers
-      done();
+      beerController.createBeer({name: 'myBeer', device: {macId: '1234', name:'myDevice'}})
+      .then(beer => {
+        this.tempBeer = beer;
+        done();
+      })
+      .catch(done);
     });
 
-    it('should return some beers');
+    afterEach((done) => {
+      beerController.removeAllBeers()
+      .then(() => done())
+      .catch(done);
+    });
+
+    it('should return some beers', () => {
+      request.get(`${baseUrl}/beer`)
+      .then(res => {
+        expect(res.status).to.equal(200);
+        done();
+      });
+    });
   });
 });

@@ -8,4 +8,4 @@ const beerSchema = mongoose.Schema({
   transactions: {type: Array}
 });
 
-module.exports = mongoose.modeul('beer', beerSchema);
+module.exports = mongoose.module('beer', beerSchema);
