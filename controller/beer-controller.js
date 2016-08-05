@@ -58,7 +58,7 @@ exports.updateBeer = function(beerId, beerData) {
   });
 };
 
-exports.removeOneBeer = function(beerId){
+exports.removeBeer = function(beerId){
   debug('delete one beer');
   return new Promise((resolve, reject) => {
     Beer.remove({_id: beerId})
@@ -85,5 +85,25 @@ exports.addTransaction = function(beerId, transaction) {
       {safe: true, upsert: true, new: true}
     ).then(resolve)
     .catch((err) => reject(httpErrors(404, err.message)) );
+  });
+};
+
+exports.fetchAllTransactions = function(beerId) {
+  debug('beerTracker:fetchAllTransactions');
+  return new Promise((resolve, reject) => {
+    Beer.findById({_id: beerId})
+    .then(beer => resolve(beer.transactions))
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
+
+exports.removeTransaction = function(beerId, transactionId) {
+  debug('beerTracker:removeTransaction');
+  return new Promise((resolve, reject) => {
+    Beer.findOneAndUpdate({_id: beerId},
+      {$pull: {transactions: {id: transactionId}}},
+      {'new':true})
+    .then(beer => resolve(beer))
+    .catch(err => reject(httpErrors(404, err.message)));
   });
 };
