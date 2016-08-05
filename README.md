@@ -1,5 +1,11 @@
 # beer-tracker-api
-Backend API server for our beer tracker server
+Backend API server for our beer tracker server.
+Beer Tracker was created to track my personal beer inventory.
+
+It will be wired up to a raspberry-pi server that communicates with re-purposes Amazon Dash Buttons. Each button represents one type of beer and each press will deduct the appropriate beer from inventory.
+
+Inventory can also be administered via a mobile web application (still under development).
+Users will be able to add and modify inventory, beers and devices.
 
 # Resources
 ## Beer
