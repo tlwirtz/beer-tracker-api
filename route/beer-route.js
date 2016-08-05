@@ -49,7 +49,7 @@ beerRouter.delete('/beer/:id', (req, res, next) => {
 });
 
 beerRouter.post('/beer/:id/transaction', jsonParser, (req, res,next) => {
-  debug('POST /api/beer/:id/transaction', req.params.id);
+  debug('POST /api/beer/:id/transaction', req.params.id, req.body);
   beerController.addTransaction(req.params.id, req.body)
   .then(beer => res.json(beer))
   .catch(next);

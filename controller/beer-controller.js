@@ -72,12 +72,12 @@ exports.removeAllBeers = function(){
 };
 
 exports.addTransaction = function(beerId, transaction) {
-  debug('beerTracker:addTransaction');
+  debug('beerTracker:addTransaction', transaction);
   return new Promise((resolve, reject) => {
-    if (!transaction.type || !transaction.qty) return new httpErrors(400, 'bad request - no type or qty');
+    if (!transaction || !transaction.type || !transaction.qty) return reject(httpErrors(400, 'bad request - no type or qty'));
 
     transaction.id = uuid.v4();
-    transaction.dateTime = new Date.now();
+    transaction.dateTime = Date.now();
 
     Beer.findByIdAndUpdate(
       beerId,
