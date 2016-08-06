@@ -207,13 +207,42 @@ describe('testing beer-routes', function() {
     });
 
     describe('GET /api/beer/:id/transaction', () => {
-      it('should return an array of transactions');
-      it('should return a 404 f the beer can\'t be found');
+      it('should return an array of transactions', (done) => {
+        request.get(`${baseUrl}/beer/${this.tempBeer._id}/transaction`)
+        .then(res => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.be.an('array');
+          done();
+        })
+        .catch(done);
+      });
+      it('should return a 404 if the beer can\'t be found', (done) => {
+        request.get(`${baseUrl}/beer/1234`)
+        .then(done)
+        .catch(err => {
+          expect(err.response.status).to.equal(404);
+          done();
+        });
+      });
     });
 
     describe('DELETE /api/beer/:id/transaction/:transId', () => {
-      it('shoudl return a 204 if the transaction was deleted');
-      it('should return a 404 if the transaction isn\'t found');
+      it('shoudl return a 204 if the transaction was deleted', (done) => {
+        let transId = '';
+        beerController.addTransaction(this.tempBeer._id, {type:'adjust-up', qty: 100})
+        .then(beer => {
+          transId = beer.transactions[0].id;
+          return beer;
+        })
+        .then(() => {
+          return request.del(`${baseUrl}/beer/${this.tempBeer._id}/transaction/${transId}`);
+        })
+        .then(res => {
+          expect(res.status).to.equal(204);
+          done();
+        })
+        .catch(done);
+      });
     });
   });
 });
