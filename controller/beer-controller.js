@@ -53,12 +53,12 @@ exports.updateBeer = function(beerId, beerData) {
     });
 
     Beer.findByIdAndUpdate(beerId, beerData)
-    .then(() => Beer.findOne({_id: beerId}.then(resolve)))
+    .then(() => Beer.findOne({_id: beerId}).then(resolve))
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };
 
-exports.removeOneBeer = function(beerId){
+exports.removeBeer = function(beerId){
   debug('delete one beer');
   return new Promise((resolve, reject) => {
     Beer.remove({_id: beerId})
@@ -72,12 +72,12 @@ exports.removeAllBeers = function(){
 };
 
 exports.addTransaction = function(beerId, transaction) {
-  debug('beerTracker:addTransaction');
+  debug('beerTracker:addTransaction', transaction);
   return new Promise((resolve, reject) => {
-    if (!transaction.type || !transaction.qty) return new httpErrors(400, 'bad request - no type or qty');
+    if (!transaction || !transaction.type || !transaction.qty) return reject(httpErrors(400, 'bad request - no type or qty'));
 
     transaction.id = uuid.v4();
-    transaction.dateTime = new Date.now();
+    transaction.dateTime = Date.now();
 
     Beer.findByIdAndUpdate(
       beerId,
@@ -85,5 +85,25 @@ exports.addTransaction = function(beerId, transaction) {
       {safe: true, upsert: true, new: true}
     ).then(resolve)
     .catch((err) => reject(httpErrors(404, err.message)) );
+  });
+};
+
+exports.fetchAllTransactions = function(beerId) {
+  debug('beerTracker:fetchAllTransactions');
+  return new Promise((resolve, reject) => {
+    Beer.findById({_id: beerId})
+    .then(beer => resolve(beer.transactions))
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
+
+exports.removeTransaction = function(beerId, transactionId) {
+  debug('beerTracker:removeTransaction');
+  return new Promise((resolve, reject) => {
+    Beer.findOneAndUpdate({_id: beerId},
+      {$pull: {transactions: {id: transactionId}}},
+      {'new':true})
+    .then(beer => resolve(beer))
+    .catch(err => reject(httpErrors(404, err.message)));
   });
 };
