@@ -103,7 +103,9 @@ exports.removeTransaction = function(beerId, transactionId) {
     Beer.findOneAndUpdate({_id: beerId},
       {$pull: {transactions: {id: transactionId}}},
       {'new':true})
-    .then(beer => resolve(beer))
+    .then(beer => {
+      resolve(beer);
+    })
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };

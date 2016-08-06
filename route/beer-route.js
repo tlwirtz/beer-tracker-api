@@ -65,6 +65,6 @@ beerRouter.get('/beer/:id/transaction', (req, res, next) => {
 beerRouter.delete('/beer/:id/transaction/:transId',(req, res, next) => {
   debug(`DELETE /beer/${req.params.id}/transaction/${req.params.transId}`);
   beerController.removeTransaction(req.params.id, req.params.transId)
-  .then(beer => res.json(beer))
+  .then(() => res.status(204).send())
   .catch(next);
 });
