@@ -9,7 +9,6 @@ const deviceRouter = module.exports = new Router();
 
 deviceRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) => {
   debug('POST /api/device/:macAddr/transaction');
-  //transactions here
   beerController.findBeerByDevice(req.params.macAddr)
   .then(beers => beerController.addTransaction(beers[0], req.body))
   .then(beer => res.json(beer))
