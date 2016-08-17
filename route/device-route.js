@@ -7,8 +7,6 @@ const deviceController = require('../controller/device-controller');
 const jsonParser = require('body-parser').json();
 
 const deviceRouter = module.exports = new Router();
-
-//TODO -- add all basic crud routes
 deviceRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) => {
   debug('POST /api/device/:macAddr/transaction');
   beerController.findBeerByDevice(req.params.macAddr)
@@ -17,11 +15,43 @@ deviceRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) =
   .catch(next);
 });
 
-deviceRouter.get('/devices', (req, res, next) => {
+deviceRouter.get('/device', (req, res, next) => {
   debug('GET /api/devices');
-  //return devices using controller
+  deviceController.fetchAllDevices()
+  .then(devices => res.json(devices))
+  .catch(next);
 });
 
-deviceRouter.post('/devices', (req, res, next) => {
-  //use device controller
+deviceRouter.post('/device', (req, res, next) => {
+  debug('POST /api/devices');
+  deviceController.createDevice(req.body)
+  .then(device => res.json(device))
+  .catch(next);
+});
+
+deviceRouter.get('/device/:id', (req, res, next) => {
+  debug('GET /api/device/:id', req.params.id);
+  deviceController.fetchBeer(req.params.id)
+  .then(device => {
+    if (!device) return next(httpErrors(404, 'device not found'));
+    res.json(device);
+  })
+  .catch(next);
+});
+
+deviceRouter.put('/device/:id', jsonParser, (req, res, next) => {
+  debug('PUT /api/device/:id', req.params.id, req.body);
+  deviceController.updateBeer(req.params.id, req.body)
+  .then(device => {
+    if (!device) return next(httpErrors(404, 'device not found'));
+    res.json(device);
+  })
+  .catch(next);
+});
+
+deviceRouter.delete('/device/:id', (req, res, next) => {
+  debug('DELETE /api/device/:id', req.params.id);
+  deviceController.removeBeer(req.params.id)
+  .then(() => res.status(204).send())
+  .catch(next);
 });
