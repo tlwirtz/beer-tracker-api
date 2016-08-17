@@ -4,6 +4,7 @@ const debug = require('debug')('beerTracker:deviceController');
 const httpErrors = require('http-errors');
 const Device = require('../model/device');
 
+//TODO -- add error handling
 exports.createDevice = function(deviceData) {
   debug('createDevice');
   return new Promise((resolve, reject) => {
