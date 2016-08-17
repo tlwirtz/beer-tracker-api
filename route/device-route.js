@@ -7,12 +7,16 @@ const jsonParser = require('body-parser').json();
 
 const deviceRouter = module.exports = new Router();
 
-beerRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) => {
+deviceRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) => {
   debug('POST /api/device/:macAddr/transaction');
   //transactions here
+  beerController.findBeerByDevice(req.params.macAddr)
+  .then(beers => beerController.addTransaction(beers[0], req.body))
+  .then(beer => res.json(beer))
+  .catch(next);
 });
 
-beerRouter.get('/devices', (req, res, next) => {
+deviceRouter.get('/devices', (req, res, next) => {
   debug('GET /api/devices');
   //return devices
 });
