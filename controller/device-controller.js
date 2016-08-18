@@ -5,12 +5,22 @@ const httpErrors = require('http-errors');
 const Device = require('../model/device');
 
 //TODO -- add error handling
+//TODO -- add support for registering a beer to a device
 exports.createDevice = function(deviceData) {
   debug('createDevice');
   return new Promise((resolve, reject) => {
     new Device(deviceData).save()
     .then(device => resolve(device))
     .catch(err => reject(httpErrors(400, err.message)));
+  });
+};
+
+exports.fetchDevice = function(deviceId) {
+  debug('fetchDevice');
+  return new Promise((resolve, reject) => {
+    Device.findOne({_id: deviceId})
+    .then(device => resolve(device))
+    .catch(err => reject(httpErrors(404, err.message)));
   });
 };
 

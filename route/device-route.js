@@ -7,6 +7,8 @@ const deviceController = require('../controller/device-controller');
 const jsonParser = require('body-parser').json();
 
 const deviceRouter = module.exports = new Router();
+
+//TODO -- add route for registering (de-registering?) a beer with a device
 deviceRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) => {
   debug('POST /api/device/:macAddr/transaction');
   beerController.findBeerByDevice(req.params.macAddr)
@@ -15,12 +17,6 @@ deviceRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) =
   .catch(next);
 });
 
-deviceRouter.get('/device', (req, res, next) => {
-  debug('GET /api/devices');
-  deviceController.fetchAllDevices()
-  .then(devices => res.json(devices))
-  .catch(next);
-});
 
 deviceRouter.post('/device', (req, res, next) => {
   debug('POST /api/devices');
@@ -31,7 +27,7 @@ deviceRouter.post('/device', (req, res, next) => {
 
 deviceRouter.get('/device/:id', (req, res, next) => {
   debug('GET /api/device/:id', req.params.id);
-  deviceController.fetchBeer(req.params.id)
+  deviceController.fetchDevice(req.params.id)
   .then(device => {
     if (!device) return next(httpErrors(404, 'device not found'));
     res.json(device);
@@ -41,7 +37,7 @@ deviceRouter.get('/device/:id', (req, res, next) => {
 
 deviceRouter.put('/device/:id', jsonParser, (req, res, next) => {
   debug('PUT /api/device/:id', req.params.id, req.body);
-  deviceController.updateBeer(req.params.id, req.body)
+  deviceController.updateDevice(req.params.id, req.body)
   .then(device => {
     if (!device) return next(httpErrors(404, 'device not found'));
     res.json(device);
@@ -51,7 +47,14 @@ deviceRouter.put('/device/:id', jsonParser, (req, res, next) => {
 
 deviceRouter.delete('/device/:id', (req, res, next) => {
   debug('DELETE /api/device/:id', req.params.id);
-  deviceController.removeBeer(req.params.id)
+  deviceController.removeDevice(req.params.id)
   .then(() => res.status(204).send())
+  .catch(next);
+});
+
+deviceRouter.get('/device', (req, res, next) => {
+  debug('GET /api/devices');
+  deviceController.fetchAllDevices()
+  .then(devices => res.json(devices))
   .catch(next);
 });
