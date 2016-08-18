@@ -5,7 +5,6 @@ const httpErrors = require('http-errors');
 const Device = require('../model/device');
 
 //TODO -- add error handling
-//TODO -- add support for registering a beer to a device
 exports.createDevice = function(deviceData) {
   debug('createDevice', deviceData);
   return new Promise((resolve, reject) => {
@@ -28,6 +27,16 @@ exports.fetchAllDevices = function() {
   debug('fetchAllDevices');
   return new Promise((resolve, reject) => {
     Device.find({})
+    .then(resolve)
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
+
+//TODO -- TEST ME
+exports.fetchDeviceByMacAddr = function(macAddr) {
+  debug('fetchDeviceByMacAddr');
+  return new Promise((resolve, reject) => {
+    Device.find({macId: macAddr})
     .then(resolve)
     .catch(err => reject(httpErrors(404, err.message)));
   });

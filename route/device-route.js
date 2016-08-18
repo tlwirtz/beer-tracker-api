@@ -8,7 +8,17 @@ const jsonParser = require('body-parser').json();
 
 const deviceRouter = module.exports = new Router();
 
-//TODO -- add route for registering (de-registering?) a beer with a device
+//TODO -- TEST ME
+deviceRouter.get('/device/:macAddr/register/:beerId', (req, res, next) => {
+  debug('GET /api/device/:macAddr/register/:beerId');
+
+  deviceController.fetchDeviceByMacAddr(req.params.macAddr)
+  .then(device => deviceController.updateDevice(device._id, {beerId: req.params.beerId}))
+  .then(device => beerController.updateBeer(req.params.beerId, {device: device}))
+  .then(beer => res.json(beer))
+  .catch(next);
+});
+
 deviceRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) => {
   debug('POST /api/device/:macAddr/transaction');
   beerController.findBeerByDevice(req.params.macAddr)
