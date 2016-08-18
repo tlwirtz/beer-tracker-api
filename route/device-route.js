@@ -21,7 +21,11 @@ deviceRouter.get('/device/:macAddr/register/:beerId', (req, res, next) => {
 
 deviceRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) => {
   debug('POST /api/device/:macAddr/transaction');
-  beerController.findBeerByDevice(req.params.macAddr)
+  beerController.fetchBeerByDevice(req.params.macAddr)
+  .then(beers => {
+    console.log(beers);
+    return beers;
+  })
   .then(beers => beerController.addTransaction(beers[0], req.body))
   .then(beer => res.json(beer))
   .catch(next);

@@ -165,10 +165,34 @@ describe('testing device routes', function() {
       });
 
       describe('POST /device/:macAddr/transaction', () => {
-        it('should add a transaction to a beer');
+        it('should add a transaction to a beer', (done) => {
+          request.post(`${baseUrl}/device/1234/transaction`)
+          .send({
+            type:'adjust-up',
+            qty:30
+          })
+          .then(res => {
+            const beer = res.body;
+            const transactions = beer.transactions;
+            expect(Array.isArray(transactions)).to.equal(true);
+            expect(transactions[0].type).to.equal('adjust-up');
+            expect(transactions[0].qty).to.equal(30);
+            expect(transactions[0]).to.have.property('id');
+            expect(transactions[0]).to.have.property('dateTime');
+            done();
+          })
+          .catch(done);
+        });
         it('should return a 404 if the device is not found');
         it('should return a 400 if the device does not have a beer attached');
         it('should return an error if no body is sent');
+      });
+
+      describe('GET /device/:macAddr/register/:beerId', () => {
+        it('should add the beerId to the device');
+        it('should add the device to the beer');
+        it('should return a 404 if the device is not found');
+        it('should return a 404 if the beer is not found');
       });
     });
   });
