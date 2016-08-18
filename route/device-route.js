@@ -18,8 +18,8 @@ deviceRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) =
 });
 
 
-deviceRouter.post('/device', (req, res, next) => {
-  debug('POST /api/devices');
+deviceRouter.post('/device', jsonParser, (req, res, next) => {
+  debug('POST /api/devices', req.body);
   deviceController.createDevice(req.body)
   .then(device => res.json(device))
   .catch(next);

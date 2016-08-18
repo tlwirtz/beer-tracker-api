@@ -7,7 +7,7 @@ const Device = require('../model/device');
 //TODO -- add error handling
 //TODO -- add support for registering a beer to a device
 exports.createDevice = function(deviceData) {
-  debug('createDevice');
+  debug('createDevice', deviceData);
   return new Promise((resolve, reject) => {
     new Device(deviceData).save()
     .then(device => resolve(device))

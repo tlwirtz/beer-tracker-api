@@ -14,7 +14,6 @@ const beerController = require('../controller/beer-controller');
 const deviceController = require('../controller/device-controller');
 request.use(superPromise);
 
-
 describe('testing device routes', function() {
   before((done) => {
     debug('before beer route');
@@ -86,6 +85,90 @@ describe('testing device routes', function() {
           done();
         })
         .catch(done);
+      });
+    });
+
+
+    describe('PUT /device/:id', () => {
+      it('should update the requested device', (done) => {
+        request.put(`${baseUrl}/device/${this.tempDevice._id}`)
+        .send({name: 'MyNewName'})
+        .then(res => {
+          expect(res.status).to.equal(200);
+          expect(res.body.name).to.equal('MyNewName');
+          done();
+        })
+        .catch(done);
+      });
+
+      it('should throw a 404 error if the device is not found', (done) => {
+        request.put(`${baseUrl}/device/1234`)
+        .send({name: 'MyNewName'})
+        .then(done)
+        .catch(err => {
+          expect(err.response.status).to.equal(404);
+          done();
+        });
+      });
+
+      it('should thow a 400 error if the no body is sent', (done) => {
+        request.put(`${baseUrl}/device/${this.tempDevice._id}`)
+        .then(done)
+        .catch(err => {
+          expect(err.response.status).to.equal(400);
+          done();
+        });
+      });
+    });
+
+    describe('POST /device', () => {
+      it('should return the device', (done) => {
+        request.post(`${baseUrl}/device`)
+        .send({
+          name: 'MySecondDevice',
+          macId: '4567',
+          beerId: this.tempDevice.beerId
+        })
+        .then(res => {
+          console.log(res.body);
+          expect(res.status).to.equal(200);
+          expect(res.body.name).to.equal('MySecondDevice');
+          expect(res.body.macId).to.equal('4567');
+          expect(res.body.beerId).to.equal(this.tempDevice.beerId.toString());
+          done();
+        })
+        .catch(done);
+      });
+
+      it('should return a 400 error if no device is sent', (done) => {
+        request.post(`${baseUrl}/device`)
+        .then(done)
+        .catch(err => {
+          expect(err.response.status).to.equal(400);
+          done();
+        });
+      });
+
+      describe('DELETE /device/:id', () => {
+        it('should return a 204', (done) => {
+          request.del(`${baseUrl}/device/${this.tempDevice._id}`)
+          .then(res => {
+            expect(res.status).to.equal(204);
+            deviceController.fetchAllDevices()
+            .then(devices => {
+              expect(devices.length).to.equal(0);
+              done();
+            });
+          })
+          .catch(done);
+        });
+      });
+
+      describe('POST /device/:macAddr/transaction', () => {
+        it('should add a transaction to a beer');
+        it('should return a 404 if the device is not found');
+        it('should return a 400 if the device does not have a beer attached');
+        it('should return an error if no body is sent');
       });
     });
   });
