@@ -21,11 +21,17 @@ deviceRouter.get('/device/:macAddr/register/:beerId', (req, res, next) => {
 
 deviceRouter.post('/device/:macAddr/transaction', jsonParser, (req, res, next) => {
   debug('POST /api/device/:macAddr/transaction');
-  beerController.fetchBeerByDevice(req.params.macAddr)
-  .then(beers => {
-    console.log(beers);
-    return beers;
+
+  if (!req.body || Object.keys(req.body).length === 0){
+    return next(httpErrors(400, 'no transaction body found'));
+  }
+
+  deviceController.fetchDeviceByMacAddr(req.params.macAddr)
+  .then(device => {
+    if (!device[0].beerId ) return next(httpErrors(400, 'no beer attached to device'));
+    return device;
   })
+  .then(() =>  beerController.fetchBeerByDevice(req.params.macAddr))
   .then(beers => beerController.addTransaction(beers[0], req.body))
   .then(beer => res.json(beer))
   .catch(next);

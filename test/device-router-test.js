@@ -183,9 +183,43 @@ describe('testing device routes', function() {
           })
           .catch(done);
         });
-        it('should return a 404 if the device is not found');
-        it('should return a 400 if the device does not have a beer attached');
-        it('should return an error if no body is sent');
+        it('should return a 404 if the device is not found', (done) => {
+          request.post(`${baseUrl}/device/10101/transaction'`)
+          .send({
+            type: 'adjust-up',
+            qty:30
+          })
+          .catch(err => {
+            expect(err.response.status).to.equal(404);
+            done();
+          });
+        });
+        it('should return a 400 if the device does not have a beer attached', (done) => {
+          const tempBeerId = this.tempDevice.beerId;
+          
+          deviceController.updateDevice(this.tempDevice._id, {beerId: null})
+          .then(() => beerController.updateBeer(tempBeerId, {device: null}))
+          .then(() => {
+            return request.post(`${baseUrl}/device/1234/transaction`)
+            .send({
+              type: 'adjust-up',
+              qty:30
+            });
+          })
+          .catch(err => {
+            expect(err.response.status).to.equal(400);
+            done();
+          });
+        });
+
+        it('should return an error if no body is sent', (done) => {
+          request.post(`${baseUrl}/device/1234/transaction`)
+          .send()
+          .catch(err => {
+            expect(err.response.status).to.equal(400);
+            done();
+          });
+        });
       });
 
       describe('GET /device/:macAddr/register/:beerId', () => {
