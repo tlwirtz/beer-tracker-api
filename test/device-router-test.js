@@ -196,7 +196,7 @@ describe('testing device routes', function() {
         });
         it('should return a 400 if the device does not have a beer attached', (done) => {
           const tempBeerId = this.tempDevice.beerId;
-          
+
           deviceController.updateDevice(this.tempDevice._id, {beerId: null})
           .then(() => beerController.updateBeer(tempBeerId, {device: null}))
           .then(() => {
@@ -223,8 +223,33 @@ describe('testing device routes', function() {
       });
 
       describe('GET /device/:macAddr/register/:beerId', () => {
-        it('should add the beerId to the device');
-        it('should add the device to the beer');
+        it('should add the beerId to the device', (done) => {
+          const origBeerId = this.tempDevice.beerId.toString();
+          deviceController.updateDevice(this.tempDevice._id, {beerId: null})
+          .then(() => request.get(`${baseUrl}/device/1234/register/${origBeerId}`))
+          .then(res => {
+            expect(res.body.beerId.toString()).to.equal(origBeerId);
+            expect(res.status).to.equal(200);
+            done();
+          }).catch(done);
+
+        });
+        it('should add the device to the beer', (done) => {
+          const origBeerId = this.tempDevice.beerId.toString();
+          deviceController.updateDevice(this.tempDevice._id, {beerId: null})
+          .then(() => request.get(`${baseUrl}/device/1234/register/${origBeerId}`))
+          .then(res => {
+            console.log(res.body);
+            beerController.fetchBeerByDevice(res.body._id);
+          })
+          .then(beer => {
+            console.log(beer);
+            //this is not working
+            done();
+          })
+          .catch(done);
+
+        });
         it('should return a 404 if the device is not found');
         it('should return a 404 if the beer is not found');
       });

@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('deviceTracker:deviceController');
+const debug = require('debug')('beerTracker:deviceController');
 const httpErrors = require('http-errors');
 const Device = require('../model/device');
 

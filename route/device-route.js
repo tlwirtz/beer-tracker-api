@@ -13,9 +13,10 @@ deviceRouter.get('/device/:macAddr/register/:beerId', (req, res, next) => {
   debug('GET /api/device/:macAddr/register/:beerId');
 
   deviceController.fetchDeviceByMacAddr(req.params.macAddr)
-  .then(device => deviceController.updateDevice(device._id, {beerId: req.params.beerId}))
+  .then(device => deviceController.updateDevice(device[0]._id, {beerId: req.params.beerId}))
   .then(device => beerController.updateBeer(req.params.beerId, {device: device}))
-  .then(beer => res.json(beer))
+  .then(() => deviceController.fetchDeviceByMacAddr(req.params.macAddr))
+  .then(device => res.json(device[0]))
   .catch(next);
 });
 

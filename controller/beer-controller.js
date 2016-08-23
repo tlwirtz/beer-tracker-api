@@ -4,6 +4,7 @@ const debug = require('debug')('beerTracker:beerController');
 const httpErrors = require('http-errors');
 const uuid = require('uuid');
 const Beer = require('../model/beer');
+const mongoose = require('mongoose');
 
 exports.createBeer = function(beerData) {
   debug('createBeer');
@@ -15,7 +16,7 @@ exports.createBeer = function(beerData) {
 };
 
 exports.fetchBeer = function(beerId) {
-  debug('fetchBeer');
+  debug('fetchBeer', beerId);
   return new Promise((resolve, reject) => {
     Beer.findOne({_id: beerId})
     .then(beer => resolve(beer))
@@ -33,7 +34,7 @@ exports.fetchAllBeers = function() {
 };
 
 exports.fetchBeerByDevice = function(deviceId) {
-  debug('fetchBeerByDevice');
+  debug('fetchBeerByDevice', deviceId);
   return new Promise((resolve, reject) => {
     Beer.find({})
     .then(beers => beers.filter(beer => beer.device.macId === deviceId))
