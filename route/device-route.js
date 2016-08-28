@@ -14,6 +14,7 @@ deviceRouter.get('/device/:macAddr/register/:beerId', (req, res, next) => {
 
   deviceController.fetchDeviceByMacAddr(req.params.macAddr)
   .then(device => {
+    console.log('devices', device);
     if (device.length === 0) return next(httpErrors(404, 'device not found'));
     return device;
   })

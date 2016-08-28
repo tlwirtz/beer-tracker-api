@@ -258,7 +258,14 @@ describe('testing device routes', function() {
             done();
           });
         });
-        it('should return a 404 if the beer is not found');
+
+        it('should return a 404 if the beer is not found', (done) => {
+          request.get(`${baseUrl}/device/1234/register/fakebeer`)
+          .catch(err => {
+            expect(err.response.status).to.equal(404);
+            done();
+          });
+        });
       });
     });
   });
