@@ -5,7 +5,7 @@ env:
   - DEBUG=beerTracker:*
   - APP_SECRET=tonttellanyone
   - PORT=3000
-  - MONGOD_URI=mongodb://localhost/beerTracker
+  - MONGOD_URI=mongodb://127.0.0.1/beerTracker
 services:
   - mongo
 before_script:
