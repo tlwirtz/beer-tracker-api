@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - "4"
+env:
+  - DEBUG=beerTracker:*
+  - APP_SECRET=tonttellanyone
+  - PORT=3000
+  - MONGOD_URI=mongodb://localhost/beerTracker
+services:
+  - mongo
+before_script:
+  - sleep 15
+  - mongo mydb_test --eval 'db.addUser("travis", "test")'
