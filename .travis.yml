@@ -2,6 +2,9 @@ language: node_js
 sudo: required
 node_js:
   - "4"
+before_script:
+  - sleep 15
+  - mongo mydb_test --eval 'db.addUser("travis", "test");'
 env:
   - DEBUG=beerTracker:*
   - APP_SECRET=tonttellanyone
@@ -9,6 +12,3 @@ env:
   - MONGOD_URI=mongodb://127.0.0.1/beerTracker
 services:
   - mongod
-before_script:
-  - sleep 15
-  - mongo mydb_test --eval 'db.addUser("travis", "test");'
