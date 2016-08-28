@@ -250,7 +250,14 @@ describe('testing device routes', function() {
           .catch(done);
 
         });
-        it('should return a 404 if the device is not found');
+        it('should return a 404 if the device is not found', (done) => {
+          const origBeerId = this.tempDevice.beerId.toString();
+          request.get(`${baseUrl}/device/fakeDevice/register/${origBeerId}`)
+          .catch(err => {
+            expect(err.response.status).to.equal(404);
+            done();
+          });
+        });
         it('should return a 404 if the beer is not found');
       });
     });
