@@ -1,10 +1,5 @@
 language: node_js
 sudo: required
-node_js:
-  - "4"
-before_script:
-  - sleep 15
-  - mongo mydb_test --eval 'db.addUser("travis", "test");'
 env:
   - DEBUG=beerTracker:*
   - APP_SECRET=tonttellanyone
