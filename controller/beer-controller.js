@@ -37,7 +37,7 @@ exports.fetchBeerByDevice = function(deviceId) {
   debug('fetchBeerByDevice', deviceId);
   return new Promise((resolve, reject) => {
     Beer.find({})
-    .then(beers => beers.filter(beer => beer.device.macId === deviceId))
+    .then(beers => beers.filter(beer => beer.device.macId.toString() === deviceId.toString()))
     .then(resolve)
     .catch(reject);
   });

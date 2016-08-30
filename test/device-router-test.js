@@ -237,13 +237,14 @@ describe('testing device routes', function() {
         it('should add the device to the beer', (done) => {
           const origBeerId = this.tempDevice.beerId.toString();
           deviceController.updateDevice(this.tempDevice._id, {beerId: null})
+          .then(() => beerController.createBeer({name: 'myTestBeer', device:{macId: '1234', name: 'myDevice'}}))
           .then(() => request.get(`${baseUrl}/device/1234/register/${origBeerId}`))
           .then(res => {
-            console.log(res.body);
-            beerController.fetchBeerByDevice(res.body._id);
+            console.log('my res:::::', res.body);
+            beerController.fetchBeerByDevice(res.body.macId);
           })
           .then(beer => {
-            console.log(beer);
+            console.log('my beer:::::', beer);
             //this is not working
             done();
           })
