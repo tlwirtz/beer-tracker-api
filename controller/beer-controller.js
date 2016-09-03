@@ -53,7 +53,7 @@ exports.updateBeer = function(beerId, beerData) {
       if (beerKeys.indexOf(key) === -1) return reject(httpErrors(400, 'key does not exist in Beer object'));
     });
 
-    Beer.findByIdAndUpdate(beerId, beerData)
+    Beer.findByIdAndUpdate(beerId, beerData, {safe: true, upsert: true, new: true})
     .then(() => Beer.findOne({_id: beerId}).then(resolve))
     .catch(err => reject(httpErrors(404, err.message)));
   });
