@@ -1,6 +1,6 @@
 {
   "name": "beer-tracker-api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "backend api for beer tracker system",
   "main": "server.js",
   "scripts": {
