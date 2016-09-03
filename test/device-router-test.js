@@ -239,13 +239,10 @@ describe('testing device routes', function() {
           deviceController.updateDevice(this.tempDevice._id, {beerId: null})
           .then(() => beerController.createBeer({name: 'myTestBeer', device:{macId: '1234', name: 'myDevice'}}))
           .then(() => request.get(`${baseUrl}/device/1234/register/${origBeerId}`))
-          .then(res => {
-            console.log('my res:::::', res.body);
-            beerController.fetchBeerByDevice(res.body.macId);
-          })
+          .then(res => beerController.fetchBeerByDevice(res.body.macId))
           .then(beer => {
-            console.log('my beer:::::', beer);
-            //this is not working
+            expect(beer[0]).to.have.property('device');
+            expect(beer[0].device.macId).to.equal('1234');
             done();
           })
           .catch(done);
