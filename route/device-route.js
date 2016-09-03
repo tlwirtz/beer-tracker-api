@@ -8,7 +8,6 @@ const jsonParser = require('body-parser').json();
 
 const deviceRouter = module.exports = new Router();
 
-//TODO -- TEST ME
 deviceRouter.get('/device/:macAddr/register/:beerId', (req, res, next) => {
   debug('GET /api/device/:macAddr/register/:beerId');
 
