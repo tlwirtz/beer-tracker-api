@@ -34,7 +34,7 @@ Users will be able to add and modify inventory, beers and devices.
   ]
 }
 ```
-### Routes
+### Routes -- TODO -- UPDATE WITH DEVICE ROUTES
 `/api/beer` -- base route for all incoming requests  
 `/api/beer/` -- POST -- Create a new beer  
 `/api/beer/` -- GET -- Get all beers  
