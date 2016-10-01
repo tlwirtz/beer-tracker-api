@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const httpErrors = require('http-errors');
@@ -16,6 +17,7 @@ const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/beerTracker';
 
 mongoose.connect(mongoURI);
 
+app.use(cors());
 app.use(morgan('dev'));
 
 app.all('/', (req, res, next) => {
