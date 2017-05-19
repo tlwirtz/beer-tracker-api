@@ -38,7 +38,7 @@ All API responses are in JSON format.
 ```
 ### Routes
 
-The production version of this API can be accessed at [here] (https://beer-tracker-api.herokuapp.com/_)
+The production version of this API can be accessed at [here](https://beer-tracker-api.herokuapp.com/_)
 ### `/api/beer/` -- GET
 Returns all the beers in the database.
 
