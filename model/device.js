@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const db = require('./db-admin');
 
-const deviceSchema = Joi.Object().keys({
+const deviceSchema = Joi.object().keys({
   name: Joi.string().required(),
   macId: Joi.string().required(),
   beerId: Joi.string(),
