@@ -13,9 +13,8 @@ const deviceRouter = require('./route/device-route');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/beerTracker';
-
-mongoose.connect(mongoURI);
+// const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/beerTracker';
+// mongoose.connect(mongoURI);
 
 app.use(cors());
 app.use(morgan('dev'));
