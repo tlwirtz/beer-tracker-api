@@ -49,7 +49,7 @@ const save = async beerData => {
   const { error } = verifyBeerSchema(beerData);
 
   if (error) {
-    return Promise.reject(new TypeError(error));
+    return Promise.reject(httpErrors.BadRequest(error));
   }
 
   return db
