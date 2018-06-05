@@ -1,8 +1,6 @@
 'use strict';
-
 const debug = require('debug')('beerTracker:beerController');
 const httpErrors = require('http-errors');
-const uuid = require('uuid');
 const Beer = require('../model/beer');
 
 exports.createBeer = function(beerData) {
@@ -76,26 +74,13 @@ exports.removeAllBeers = function() {
   return Beer.remove();
 };
 
-
-
-//TODO -- these need evaluation. Especially with Firebse
-// Should probably store transactions as a sub collection. 
 exports.addTransaction = function(beerId, transaction) {
   debug('beerTracker:addTransaction', transaction);
   return new Promise((resolve, reject) => {
-    if (!transaction || !transaction.type || !transaction.qty)
-      return reject(httpErrors(400, 'bad request - no type or qty'));
 
-    transaction.id = uuid.v4();
-    transaction.dateTime = Date.now();
-
-    Beer.findByIdAndUpdate(
-      beerId,
-      { $push: { transactions: transaction } },
-      { safe: true, upsert: true, new: true }
-    )
+    Beer.addTransaction(beerId, transaction)
       .then(resolve)
-      .catch(err => reject(httpErrors(404, err.message)));
+      .catch(reject);
   });
 };
 
@@ -111,14 +96,8 @@ exports.fetchAllTransactions = function(beerId) {
 exports.removeTransaction = function(beerId, transactionId) {
   debug('beerTracker:removeTransaction');
   return new Promise((resolve, reject) => {
-    Beer.findOneAndUpdate(
-      { _id: beerId },
-      { $pull: { transactions: { id: transactionId } } },
-      { new: true }
-    )
-      .then(beer => {
-        resolve(beer);
-      })
+    Beer.remove(beerId, transactionId)
+      .then(resolve)
       .catch(err => reject(httpErrors(404, err.message)));
   });
 };
