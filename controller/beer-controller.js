@@ -70,10 +70,6 @@ exports.removeBeer = function(beerId) {
   });
 };
 
-exports.removeAllBeers = function() {
-  return Beer.remove();
-};
-
 exports.addTransaction = function(beerId, transaction) {
   debug('beerTracker:addTransaction', transaction);
   return new Promise((resolve, reject) => {
