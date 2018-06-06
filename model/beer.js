@@ -73,7 +73,7 @@ const findOne = async id => {
     .get();
 
   if (!beer.exists) {
-    return Promise.reject('Not Found');
+    return Promise.reject(httpErrors.NotFound());
   }
 
   const transactions = await fetchTransactions(id);
@@ -91,6 +91,7 @@ const findByIdAndUpdate = async (id, updateData) => {
     .collection('beers')
     .doc(id)
     .get();
+
   if (!beer.exists) {
     return Promise.reject(httpErrors.NotFound());
   }
@@ -108,7 +109,7 @@ const remove = async id => {
     .get();
 
   if (!beer.exists) {
-    return Promise.reject('Not Found');
+    return Promise.reject(httpErrors.NotFound());
   }
 
   return db
