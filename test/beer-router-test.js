@@ -179,7 +179,6 @@ describe('testing beer-routes', function() {
             qty: 30,
           })
           .then(res => {
-            console.log('trans', res.body);
             expect(res.status).to.equal(200);
             expect(res.body.transactions.length).to.equal(1);
             expect(res.body.transactions[0]).to.have.property('id');
