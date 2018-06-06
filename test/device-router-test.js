@@ -1,9 +1,5 @@
-'use strict';
-
-process.env.MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost/beerTest';
 const expect = require('chai').expect;
-const request = require('superagent-use');
-const superPromise = require('superagent-promise-plugin');
+const request = require('superagent');
 const debug = require('debug')('beerTracker:device-route-test');
 
 const port = process.env.PORT || 3000;
@@ -12,7 +8,6 @@ const baseUrl = `localhost:${port}/api`;
 const server = require('../server');
 const beerController = require('../controller/beer-controller');
 const deviceController = require('../controller/device-controller');
-request.use(superPromise);
 
 describe('testing device routes', function() {
   before((done) => {
