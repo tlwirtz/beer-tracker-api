@@ -6,7 +6,6 @@ const debug = require('debug')('beerTracker:server');
 
 const handleError = require('./lib/app-error');
 const beerRouter = require('./route/beer-route');
-const deviceRouter = require('./route/device-route');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,7 +18,6 @@ app.all('/', (req, res, next) => {
 });
 
 app.use('/api', beerRouter);
-app.use('/api', deviceRouter);
 
 app.all('*', function(req, res, next) {
   debug('404 * route');
