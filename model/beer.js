@@ -86,6 +86,15 @@ const findById = async id => {
 
 const findByIdAndUpdate = async (id, updateData) => {
   //TODO -- should validate update data
+
+  const beer = await db
+    .collection('beers')
+    .doc(id)
+    .get();
+  if (!beer.exists) {
+    return Promise.reject(httpErrors.NotFound());
+  }
+
   return db
     .collection('beers')
     .doc(id)
@@ -93,6 +102,15 @@ const findByIdAndUpdate = async (id, updateData) => {
 };
 
 const remove = async id => {
+  const beer = await db
+    .collection('beers')
+    .doc(id)
+    .get();
+
+  if (!beer.exists) {
+    return Promise.reject('Not Found');
+  }
+
   return db
     .collection('beers')
     .doc(id)
@@ -110,11 +128,21 @@ const addTransaction = async (beerId, transaction) => {
     return Promise.reject(httpErrors.BadRequest(error));
   }
 
+  const beer = await db
+    .collection('beers')
+    .doc(beerId)
+    .get();
+
+  if (!beer.exists) {
+    return Promise.reject(httpErrors.NotFound());
+  }
+
   return db
     .collection('beers')
     .doc(beerId)
     .collection('transactions')
-    .add({ ...transaction, time: Date.now() });
+    .add({ ...transaction, dateTime: Date.now() })
+    .then(() => findOne(beerId));
 };
 
 const removeTransaction = async (beerId, transactionId) => {
