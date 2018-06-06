@@ -42,3 +42,6 @@ jspm_packages
 
 # Service Key
 beer-tracker-db-key.json
+
+# VS-Code
+# .vscode
