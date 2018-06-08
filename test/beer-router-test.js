@@ -2,6 +2,7 @@ const expect = require('chai').expect;
 const request = require('superagent');
 const debug = require('debug')('beerTracker:beer-route-test');
 
+process.env.NODE_ENV = 'dev';
 const port = process.env.PORT || 3000;
 const baseUrl = `localhost:${port}/api`;
 
