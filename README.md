@@ -14,26 +14,24 @@ All API responses are in JSON format.
 ### Object Schema
 ```
 {
-  id: mongooseID,
+  id: firebaseID,
   name: beer-name,
   device: {
     macID: mac-address,
     name: name
   },
-  transactions: [
-    {
-      id: uuid
+  transactions: {
+    aaaaa01: {
       time: date.now(),
-      type: transaction-type, //provided by caller
-      qty: transaction-qty //provided by caller
+      type: transaction-type,
+      qty: transaction-qty
     },
-    {
-      id: uuid
+    aaaaa02: {
       time: date.now(),
       type: transaction-type,
       qty: transaction-qty
     }
-  ]
+  }
 }
 ```
 ### Routes

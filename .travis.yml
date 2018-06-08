@@ -1,20 +1,18 @@
 language: node_js
 node_js:
-  - "4"
+  - "lts/*"
 sudo: required
 env:
   - DEBUG=beerTracker:*
-  - APP_SECRET=tonttellanyone
   - PORT=3000
-  - MONGOD_URI=mongodb://127.0.0.1/beerTracker
   - CXX=g++-4.8
+  - NODE_ENV=dev
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
-services:
-  - mongodb
-before_script:
-  - mongo mydb_test --eval 'db.addUser("travis", "test");'
+before_install:
+  - echo $FIREBASE_SERVICE_KEY_DEV | base64 --decode > $PWD/beer-tracker-db-key-dev.json
+  - echo $FIREBASE_SERVICE_KEY | base64 --decode > $PWD/beer-tracker-db-key.json
