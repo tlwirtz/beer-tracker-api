@@ -39,3 +39,10 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# Service Key
+beer-tracker-db-key.json
+beer-tracker-db-key-dev.json
+
+# VS-Code
+.vscode
