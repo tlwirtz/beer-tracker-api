@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "beer-tracker-api-dev"
+    "default": "beer-tracker-api-dev",
+    "prod": "beer-tracker-api"
   }
 }
