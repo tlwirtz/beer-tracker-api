@@ -9,6 +9,13 @@ Inventory can also be administered via a web application (still under developmen
 Users will be able to add and modify inventory, beers and devices.
 All API responses are in JSON format.
 
+#Deployment
+This api is deployed to Google Cloud Functions. The main endpoints are:
+
+Dev: https://us-central1-beer-tracker-api-dev.cloudfunctions.net/api
+
+Prod: https://us-central1-beer-tracker-api.cloudfunctions.net/api
+
 # Resources
 ## Beer
 ### Object Schema
