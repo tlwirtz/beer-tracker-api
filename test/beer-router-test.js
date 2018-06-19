@@ -1,3 +1,6 @@
+/** 
+ * !- These test only work on the standard API. They do not reflect changes made to the functions
+ */
 const expect = require('chai').expect;
 const request = require('superagent');
 const debug = require('debug')('beerTracker:beer-route-test');
