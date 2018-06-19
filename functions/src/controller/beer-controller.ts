@@ -1,10 +1,11 @@
-'use strict';
-const debug = require('debug')('beerTracker:beerController');
-const httpErrors = require('http-errors');
-const Beer = require('../model/beer');
+import * as debug from 'debug';
+import * as httpErrors from 'http-errors';
+import Beer, { BeerSchema, BeerTransaction } from '../model/beer';
 
-exports.createBeer = function(beerData) {
-  debug('createBeer');
+const customDebugger = debug('beerTracker:beerController');
+
+export const createBeer = function(beerData: BeerSchema) {
+  customDebugger('createBeer');
   return new Promise((resolve, reject) => {
     Beer.save(beerData)
       .then(beer => resolve(beer))
@@ -12,8 +13,8 @@ exports.createBeer = function(beerData) {
   });
 };
 
-exports.fetchBeer = function(beerId) {
-  debug('fetchBeer', beerId);
+export const fetchBeer = function(beerId: string) {
+  customDebugger('fetchBeer', beerId);
   return new Promise((resolve, reject) => {
     Beer.findOne(beerId)
       .then(beer => resolve(beer))
@@ -21,8 +22,8 @@ exports.fetchBeer = function(beerId) {
   });
 };
 
-exports.fetchAllBeers = function() {
-  debug('fetchAllBeers');
+export const fetchAllBeers = function() {
+  customDebugger('fetchAllBeers');
   return new Promise((resolve, reject) => {
     Beer.find()
       .then(resolve)
@@ -30,20 +31,21 @@ exports.fetchAllBeers = function() {
   });
 };
 
-exports.fetchBeerByDevice = function(deviceId) {
-  debug('fetchBeerByDevice', deviceId);
-  return new Promise((resolve, reject) => {
-    Beer.find()
-      .then(beers =>
-        beers.filter(beer => beer.device && beer.device.macId.toString() === deviceId.toString())
-      )
-      .then(resolve)
-      .catch(reject);
-  });
-};
+//! -- THIS IS NOT SUPPORTED BY CURRENT BEER MODEL
+// export const fetchBeerByDevice = function(deviceId) {
+//   customDebugger('fetchBeerByDevice', deviceId);
+//   return new Promise((resolve, reject) => {
+//     Beer.find()
+//       .then(beers =>
+//         beers.filter(beer => beer.device && beer.device.macId.toString() === deviceId.toString())
+//       )
+//       .then(resolve)
+//       .catch(reject);
+//   });
+// };
 
-exports.updateBeer = function(beerId, beerData) {
-  debug('updating beer', beerId);
+export const updateBeer = function(beerId: string, beerData: BeerSchema) {
+  customDebugger('updating beer', beerId);
   return new Promise((resolve, reject) => {
     if (Object.keys(beerData).length === 0)
       return reject(httpErrors(400, 'need to provide a body'));
@@ -61,8 +63,8 @@ exports.updateBeer = function(beerId, beerData) {
   });
 };
 
-exports.removeBeer = function(beerId) {
-  debug('delete one beer');
+export const removeBeer = function(beerId: string) {
+  customDebugger('delete one beer');
   return new Promise((resolve, reject) => {
     Beer.remove(beerId)
       .then(resolve)
@@ -70,18 +72,17 @@ exports.removeBeer = function(beerId) {
   });
 };
 
-exports.addTransaction = function(beerId, transaction) {
-  debug('beerTracker:addTransaction', transaction);
+export const addTransaction = function(beerId: string, transaction: BeerTransaction) {
+  customDebugger('beerTracker:addTransaction', transaction);
   return new Promise((resolve, reject) => {
-
     Beer.addTransaction(beerId, transaction)
       .then(resolve)
       .catch(reject);
   });
 };
 
-exports.fetchAllTransactions = function(beerId) {
-  debug('beerTracker:fetchAllTransactions');
+export const fetchAllTransactions = function(beerId: string) {
+  customDebugger('beerTracker:fetchAllTransactions');
   return new Promise((resolve, reject) => {
     Beer.findById(beerId)
       .then(beer => resolve(beer.transactions))
@@ -89,10 +90,10 @@ exports.fetchAllTransactions = function(beerId) {
   });
 };
 
-exports.removeTransaction = function(beerId, transactionId) {
-  debug('beerTracker:removeTransaction');
+export const removeTransaction = function(beerId: string, transactionId: string) {
+  customDebugger('beerTracker:removeTransaction');
   return new Promise((resolve, reject) => {
-    Beer.remove(beerId, transactionId)
+    Beer.removeTransaction(beerId, transactionId)
       .then(resolve)
       .catch(err => reject(httpErrors(404, err.message)));
   });
