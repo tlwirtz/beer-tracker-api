@@ -3,18 +3,18 @@ import * as httpErrors from 'http-errors';
 import db from './db-admin';
 import { QueryDocumentSnapshot, DocumentData, Transaction } from '@google-cloud/firestore';
 
-interface BeerSchema {
+export interface BeerSchema {
   name: string;
   device?: object; // TODO delete property
 }
 
-interface BeerTransaction {
+export interface BeerTransaction {
   type: 'adjust-up' | 'adjust-down'; // should this be an enum?
   qty: number;
   id: string;
 }
 
-interface BeerResponse {
+export interface BeerResponse {
   name: string;
   device: object;
   id: string;
@@ -150,7 +150,7 @@ const findOneAndUpdate = async (id: string, update: BeerSchema) => {
   return findByIdAndUpdate(id, update);
 };
 
-const addTransaction = async (beerId: string, transaction: Transaction) => {
+const addTransaction = async (beerId: string, transaction: BeerTransaction) => {
   const { error } = verifyTransactionSchema(transaction);
 
   if (error) {
@@ -195,4 +195,4 @@ const beerModel = {
   removeTransaction,
 };
 
-module.exports = beerModel;
+export default beerModel;
