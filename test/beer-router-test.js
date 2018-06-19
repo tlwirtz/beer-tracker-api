@@ -1,8 +1,6 @@
-/**
- * TODO -- These test are failing because an auth key is required when using TravisCI,
- * TODO -- but none is provided.
+/** 
+ * !- These test only work on the standard API. They do not reflect changes made to the functions
  */
-
 const expect = require('chai').expect;
 const request = require('superagent');
 const debug = require('debug')('beerTracker:beer-route-test');
