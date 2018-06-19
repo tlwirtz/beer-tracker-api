@@ -5,7 +5,7 @@ import { QueryDocumentSnapshot, DocumentData, Transaction } from '@google-cloud/
 
 export interface BeerSchema {
   name: string;
-  device?: object; // TODO delete property
+  device?: object; // ? - Deprecate this?
 }
 
 export interface BeerTransaction {
